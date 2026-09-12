@@ -5,6 +5,14 @@ This project's version lives here and in each version's commit message
 whatever change it describes; see [CLAUDE.md](CLAUDE.md)/[AGENTS.md](AGENTS.md) for the
 standing instruction to AI coding agents to do this without being asked each time.
 
+## v0.0.4
+
+- Added a committed `dbx_notebooks/end_to_end.ipynb` and notebook-focused README for
+  learning the complete `demo_weather` pipeline interactively.
+- Exposed `end_to_end.run_pipeline()` so the CLI and notebook share one orchestration
+  path instead of duplicating the workflow.
+- Added Jupyter and IPython kernel dependencies to `requirements.txt`.
+
 ## v0.0.3
 
 - Added `edit_suite.py`: generates (and launches) a disposable Jupyter notebook for

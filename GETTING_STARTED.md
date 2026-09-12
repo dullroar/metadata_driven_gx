@@ -2,8 +2,9 @@
 
 ## 1. Prerequisites
 
-Python 3.10+ on your PATH. This repo is a flat set of Python scripts sharing one
-`requirements.txt` -- there's no package structure to install, just one `.venv`.
+Python 3.10+ on your PATH. This repo is a flat set of Python scripts and notebooks
+sharing one `requirements.txt` -- there's no package structure to install, just one
+`.venv`.
 
 ## 2. Create the virtual environment
 
@@ -16,7 +17,7 @@ On Windows, from the repo root:
 On another OS, do the equivalent by hand:
 
 ```bash
-python -m venv .venv && .venv/bin/pip install -r requirements.txt
+python3 -m venv .venv && .venv/bin/pip install -r requirements.txt
 ```
 
 Activate it, then run everything below from the repo root (paths in
@@ -24,6 +25,11 @@ Activate it, then run everything below from the repo root (paths in
 running from the repo root is the simplest way to keep both consistent).
 
 ## 3. See it work first: the `demo_weather` example
+
+For the interactive, notebook-oriented version of this walkthrough, see
+[`dbx_notebooks/README.md`](dbx_notebooks/README.md) and
+[`dbx_notebooks/end_to_end.ipynb`](dbx_notebooks/end_to_end.ipynb). The notebook and CLI
+call the same pipeline code; choose whichever presentation suits your workflow.
 
 Before building your own project, look at the one that's already here.
 `environments/demo_weather/` is a fully worked, **committed** example: a fictional home

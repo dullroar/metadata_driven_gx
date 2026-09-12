@@ -42,3 +42,14 @@ itself changed:
   that's a normal, intentional commit -- this guidance is about not mistaking routine
   regeneration for something worth flagging or committing when nothing substantive moved,
   not about refusing to ever update the committed example.
+
+## Update RELEASE_NOTES.md in the same commit as whatever it describes
+
+This repo tracks its version in commit message prefixes (`vX.Y.Z: <summary>`, no git
+tags) and in [RELEASE_NOTES.md](RELEASE_NOTES.md). Whenever you make a change worth its
+own version bump -- the user says so explicitly, or you're about to commit something a
+future reader would want called out (a new script, a behavior change, a fix to
+something documented elsewhere in this repo) -- add an entry to the top of
+RELEASE_NOTES.md in that same commit, and use the matching `vX.Y.Z:` prefix on the
+commit message itself. Don't wait to be asked a second time; this instruction is the
+standing ask.

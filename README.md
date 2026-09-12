@@ -49,6 +49,7 @@ anything else in the pipeline noticing.
 | `clear_old_gx_validations.py` | Resets the GX store between runs (full reset, or pruning old run history). |
 | `end_to_end.py` | Runs the three stages above in order, in one command. |
 | `common.py` | Shared config-loading and logging bootstrap every script imports. |
+| `edit_suite.py` | Generates (and launches) a disposable notebook for interactively editing one suite -- see below. |
 
 Every script is runnable on its own (`python gx_generator.py --config-file ...`);
 `end_to_end.py` is a convenience, not a requirement.
@@ -90,6 +91,40 @@ A few conventions worth knowing:
 where every row is intentionally invalid -- see `generator-tests/TESTS.md` for exactly
 what each row proves, useful for confirming your Python environment and GX version work
 before pointing anything at real data.
+
+## Interactively editing a suite: `edit_suite.py`
+
+Great Expectations' CLI used to scaffold a disposable Jupyter notebook for editing one
+suite at a time (`great_expectations suite edit <SUITE>`) -- profile the suite against
+real data, tweak expectations, re-run, save. GX 1.x removed the CLI entirely, but Data
+Docs' own "How to Edit This Suite" button still quotes that dead command (it's baked
+into a template inside the `great_expectations` package that nobody updated). This
+repo's `edit_suite.py` reproduces the same disposable-notebook workflow on GX's current
+fluent (`Batch.validate`) API instead of the removed one:
+
+```bash
+python edit_suite.py CUSTOMERS --config-file configs/demo_weather.yaml
+```
+
+This writes `play/edit_<SUITE>.ipynb` (`play/` is gitignored -- the notebook is genuinely
+disposable) and opens it in Jupyter; pass `--no-launch` to only generate the file. The
+notebook loads the named suite and its real data through this repo's own conventions
+(the same `load_dataframe()` `gx_consumer.py` uses), runs the suite as-is so you can see
+what's currently failing, lets you build and preview a candidate expectation against the
+data with zero side effects, and -- in one clearly marked cell -- saves it into
+`expectations/<SUITE>.json` for real, only once you're happy with the preview.
+
+Needs `jupyter`/`ipykernel` in your `.venv` -- deliberately not in `requirements.txt`,
+since it's a dev tool for editing suites, not a pipeline runtime dependency:
+
+```bash
+.venv/bin/pip install jupyter ipykernel
+```
+
+See `edit_suite.py`'s own module docstring for two GX 1.12.3 quirks its generated
+notebook works around: a fluent datasource registration that GX's own `.delete()`
+doesn't actually persist the removal of, and a second `get_context()` call in the same
+process corrupting the first context's suites store.
 
 ## The one-seam design
 
@@ -139,6 +174,7 @@ gx_validations_extractor.py      validation results -> output/*.csv
 extractor_common.py              row-shaping logic shared by the extractor
 clear_old_gx_validations.py      GX store maintenance
 end_to_end.py                    runs the above in order
+edit_suite.py                    generates a disposable notebook for interactively editing one suite
 core-expectations-types-and-args.csv   GX expectation vocabulary the generator understands
 generator-tests/                 fixture CSVs proving the generator works
 setup_venv.ps1                   creates/refreshes this repo's .venv
@@ -148,6 +184,7 @@ configs/TEMPLATE.yaml             copy this to start a new environment/project
 suites/                          your expectation metadata CSVs (empty here -- add your own)
 gx/                              the GX context: committed suite JSON + config; uncommitted run history
 output/                          extractor CSVs + log files (gitignored)
+play/                            edit_suite.py's generated notebooks (gitignored -- scratch only)
 
 environments/demo_weather/       a fully worked, committed example -- see GETTING_STARTED.md
 ```
@@ -220,6 +257,10 @@ production, not because they were obvious in advance:
   the column. A malformed-value test using one of those strings on purpose actually
   becomes a null test -- not what it looks like on the page. See
   `environments/demo_weather/generate_data.py` for where this bit the demo data itself.
+
+## Release notes
+
+See [RELEASE_NOTES.md](RELEASE_NOTES.md) for what changed in each version.
 
 ## License
 

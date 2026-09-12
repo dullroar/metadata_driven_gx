@@ -131,14 +131,40 @@ retired (its CSV deleted), also run `clear_old_gx_validations.py all` (or
 `end_to_end.py --clean`) -- otherwise its already-generated suite JSON keeps being
 discovered and run even though its source CSV is gone.
 
-## 10. Sanity-check the generator alone
+## 10. Edit a suite interactively
+
+Editing `suites/*.csv` by hand and re-running `gx_generator.py` works, but sometimes you
+want to try an expectation against real data before committing to it. Great
+Expectations used to ship a `great_expectations suite edit <SUITE>` CLI command for
+exactly that; GX 1.x removed the CLI entirely (Data Docs' own "How to Edit This Suite"
+button still quotes that now-dead command). `edit_suite.py` is this repo's replacement:
+
+```bash
+python edit_suite.py CUSTOMERS --config-file configs/demo_weather.yaml
+```
+
+This generates a disposable notebook at `play/edit_CUSTOMERS.ipynb` (gitignored) and
+opens it in Jupyter (pass `--no-launch` to only generate it). Run its cells top to
+bottom: it loads the suite and the real data, runs the suite as-is so you can see what's
+currently failing, lets you preview a candidate expectation against the data with zero
+side effects, and -- one clearly marked cell -- saves it into `expectations/<SUITE>.json`
+for real once you're happy with it.
+
+Needs `jupyter`/`ipykernel` in your `.venv` (a dev tool, not a pipeline dependency, so
+it's deliberately not in `requirements.txt`):
+
+```bash
+.venv/bin/pip install jupyter ipykernel
+```
+
+## 11. Sanity-check the generator alone
 
 `generator-tests/` has two small fixture CSVs -- one that should generate cleanly, one
 where every row is intentionally invalid -- useful for confirming your Python environment
 and GX version are working before you point anything at real data. See
 `generator-tests/TESTS.md`.
 
-## 11. Point it at a real database
+## 12. Point it at a real database
 
 Everything above validates CSV files. To validate a live database table instead, read the
 root [README.md](README.md)'s "The one-seam design" section -- `gx_consumer.py`'s

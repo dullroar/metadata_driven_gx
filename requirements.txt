@@ -1,3 +1,5 @@
 great_expectations==1.12.3
 pandas
 pyyaml
+jupyter
+ipykernel

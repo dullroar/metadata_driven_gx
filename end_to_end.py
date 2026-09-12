@@ -40,6 +40,43 @@ import gx_validations_extractor as ext
 import clear_old_gx_validations as cogv
 
 
+def run_pipeline(
+    config_file=None,
+    csv_dir=None,
+    suites=None,
+    clean=False,
+    log_level=None,
+) -> None:
+    """Run every pipeline stage using one shared configuration.
+
+    This is the reusable entry point for the CLI and the educational notebook. Each
+    stage remains responsible for its own work; this function only coordinates them.
+    """
+    if config_file:
+        cfg = str(Path(config_file).expanduser().resolve())
+        load_config(cfg)
+        for module in (gen, con, ext, cogv):
+            module.load_config(cfg)
+
+    common.configure(_PROGRAM, CONFIG, cli_log_level=log_level)
+
+    selected_csv_dir = csv_dir or con.CONFIG.get("csv_data_dir")
+    selected_suites = suites or CONFIG.get("suites") or "*"
+    if not selected_csv_dir:
+        raise ValueError(
+            "csv_dir is required (or set csv_data_dir under `gx_consumer:` in the config file)"
+        )
+
+    cogv.run("all" if clean else None)
+    gen.generate_all()
+    con.run_validation_multiple(selected_csv_dir, selected_suites)
+
+    try:
+        ext.process_validations()
+    except Exception:
+        logger.exception("Stage 'gx_validations_extractor' failed.")
+
+
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Run the full metadata-driven GX pipeline end to end")
     parser.add_argument(
@@ -73,30 +110,13 @@ if __name__ == "__main__":
     )
     args = parser.parse_args()
 
-    if args.config_file:
-        cfg = str(Path(args.config_file).resolve())   # resolve once, against the user's cwd
-        load_config(cfg)
-        for m in (gen, con, ext, cogv):
-            m.load_config(cfg)
-    common.configure(_PROGRAM, CONFIG, cli_log_level=args.log_level)
-
-    csv_dir = args.csv_dir or con.CONFIG.get("csv_data_dir")
-    suites = args.suites or CONFIG.get("suites") or "*"
-    if not csv_dir:
-        parser.error("--csv-dir required (or set csv_data_dir under `gx_consumer:` in the config file)")
-
-    # Always runs; a no-op unless this environment's config sets `quantity` under
-    # clear_old_gx_validations:. --clean forces a full reset regardless of what's
-    # configured, for a one-off from-scratch run.
-    cogv.run("all" if args.clean else None)
-
-    gen.generate_all()
-    con.run_validation_multiple(csv_dir, suites)
-
-    # Should not invalidate results already produced by the validation stage above, and
-    # should not die silently -- Python's default uncaught-exception handling only goes to
-    # stderr, easy to miss in an unattended/scheduled run.
     try:
-        ext.process_validations()
-    except Exception:
-        logger.exception("Stage 'gx_validations_extractor' failed.")
+        run_pipeline(
+            config_file=args.config_file,
+            csv_dir=args.csv_dir,
+            suites=args.suites,
+            clean=args.clean,
+            log_level=args.log_level,
+        )
+    except ValueError as exc:
+        parser.error(str(exc))

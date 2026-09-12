@@ -1,0 +1,162 @@
+{
+  "expectations": [
+    {
+      "id": "3e2e03a6-f6b7-4e02-96bb-ee5df29f8d7a",
+      "kwargs": {
+        "column": "ADDRESS_ID",
+        "result_format": "COMPLETE"
+      },
+      "meta": {
+        "notes": "primary key must be unique",
+        "table": "ADDRESSES",
+        "test_category": "DQ"
+      },
+      "severity": "critical",
+      "type": "expect_column_values_to_be_unique"
+    },
+    {
+      "id": "4918fe7f-6ccf-4d3e-9b09-e2fbc185b9a5",
+      "kwargs": {
+        "column": "CUSTOMER_ID",
+        "result_format": "COMPLETE"
+      },
+      "meta": {
+        "notes": "every address must belong to a customer",
+        "table": "ADDRESSES",
+        "test_category": "DQ"
+      },
+      "severity": "critical",
+      "type": "expect_column_values_to_not_be_null"
+    },
+    {
+      "id": "9c4f73a8-3925-46d6-84b7-7e03884f05db",
+      "kwargs": {
+        "column": "STREET",
+        "result_format": "COMPLETE"
+      },
+      "meta": {
+        "notes": "a blank street line means the address is unusable",
+        "table": "ADDRESSES",
+        "test_category": "DQ"
+      },
+      "severity": "warning",
+      "type": "expect_column_values_to_not_be_null"
+    },
+    {
+      "id": "b5ff7bd2-98e4-46b4-bd88-807c6d1882a3",
+      "kwargs": {
+        "column": "ZIP_CODE",
+        "result_format": "COMPLETE",
+        "value": 5.0
+      },
+      "meta": {
+        "notes": "US ZIP codes are 5 digits in this dataset",
+        "table": "ADDRESSES",
+        "test_category": "DQ"
+      },
+      "severity": "critical",
+      "type": "expect_column_value_lengths_to_equal"
+    },
+    {
+      "id": "a952f75f-df05-4d21-8a21-93d8bc5f9c7a",
+      "kwargs": {
+        "column": "ZIP_CODE",
+        "regex": "^\\d{5}$",
+        "result_format": "COMPLETE"
+      },
+      "meta": {
+        "notes": "digits only, no letters",
+        "table": "ADDRESSES",
+        "test_category": "DQ"
+      },
+      "severity": "warning",
+      "type": "expect_column_values_to_match_regex"
+    },
+    {
+      "id": "1dd6a28f-c605-4794-80d0-5310265612b5",
+      "kwargs": {
+        "column": "STATE_CD",
+        "result_format": "COMPLETE",
+        "value_set": [
+          "CA",
+          "NY",
+          "TX",
+          "WA",
+          "CO",
+          "OR",
+          "AZ",
+          "IL",
+          "MA",
+          "NC",
+          "MN",
+          "GA",
+          "UT",
+          "VA",
+          "MI"
+        ]
+      },
+      "meta": {
+        "notes": "shipping state must be one we serve",
+        "table": "ADDRESSES",
+        "test_category": "DQ"
+      },
+      "severity": "warning",
+      "type": "expect_column_values_to_be_in_set"
+    },
+    {
+      "id": "5c7fc07c-ce24-4035-b08c-6eca2edf07d8",
+      "kwargs": {
+        "column": "COUNTRY_CD",
+        "result_format": "COMPLETE",
+        "value_set": [
+          "US"
+        ]
+      },
+      "meta": {
+        "notes": "this dataset is US-only for now",
+        "table": "ADDRESSES",
+        "test_category": "DQ"
+      },
+      "severity": "warning",
+      "type": "expect_column_values_to_be_in_set"
+    },
+    {
+      "id": "2989b67d-e749-4f59-a33b-c59807064fe1",
+      "kwargs": {
+        "column_A": "STATE_CD",
+        "column_B": "BILLING_STATE_CD",
+        "result_format": "COMPLETE"
+      },
+      "meta": {
+        "notes": "home state and billing state should usually match; a mismatch is worth a human look, not necessarily wrong",
+        "table": "ADDRESSES",
+        "test_category": "DQ"
+      },
+      "severity": "warning",
+      "type": "expect_column_pair_values_to_be_equal"
+    },
+    {
+      "id": "b0b6373c-88ce-45c3-9489-6ab76eae1551",
+      "kwargs": {
+        "catch_exceptions": true,
+        "max_value": 100,
+        "min_value": 10,
+        "result_format": "COMPLETE"
+      },
+      "meta": {
+        "column": "ADDRESS_ID",
+        "notes": "sanity bound on table size",
+        "table": "ADDRESSES",
+        "test_category": "DQ"
+      },
+      "severity": "info",
+      "type": "expect_table_row_count_to_be_between"
+    }
+  ],
+  "id": "f654ac3a-3a97-448a-adca-6f08d3999293",
+  "meta": {
+    "great_expectations_version": "1.12.3"
+  },
+  "name": "ADDRESSES",
+  "notes": null
+}

@@ -1,0 +1,98 @@
+{
+  "expectations": [
+    {
+      "id": "a086c3e7-6140-497c-9cbe-478ddcfa6c19",
+      "kwargs": {
+        "column": "EMAIL_ID",
+        "result_format": "COMPLETE"
+      },
+      "meta": {
+        "notes": "primary key must be unique",
+        "table": "EMAILS",
+        "test_category": "DQ"
+      },
+      "severity": "critical",
+      "type": "expect_column_values_to_be_unique"
+    },
+    {
+      "id": "45da2e76-34ff-4536-b305-013c9738ac22",
+      "kwargs": {
+        "column": "CUSTOMER_ID",
+        "result_format": "COMPLETE"
+      },
+      "meta": {
+        "notes": "every email must belong to a customer",
+        "table": "EMAILS",
+        "test_category": "DQ"
+      },
+      "severity": "critical",
+      "type": "expect_column_values_to_not_be_null"
+    },
+    {
+      "id": "f1082bad-f73e-45a1-83ba-9a8376db5865",
+      "kwargs": {
+        "column": "EMAIL_ADDRESS",
+        "result_format": "COMPLETE"
+      },
+      "meta": {
+        "notes": "a blank email cannot be used to contact the customer",
+        "table": "EMAILS",
+        "test_category": "DQ"
+      },
+      "severity": "critical",
+      "type": "expect_column_values_to_not_be_null"
+    },
+    {
+      "id": "a1c4da8d-1bce-4cb7-8d5e-264a2301f596",
+      "kwargs": {
+        "column": "EMAIL_ADDRESS",
+        "regex": "^[^@\\s]+@[^@\\s]+\\.[^@\\s]+$",
+        "result_format": "COMPLETE"
+      },
+      "meta": {
+        "notes": "must look like a real email address",
+        "table": "EMAILS",
+        "test_category": "DQ"
+      },
+      "severity": "warning",
+      "type": "expect_column_values_to_match_regex"
+    },
+    {
+      "id": "bcc91e3f-62fa-4bc6-a835-c611347f2783",
+      "kwargs": {
+        "column": "EMAIL_ADDRESS",
+        "result_format": "COMPLETE"
+      },
+      "meta": {
+        "notes": "two customers sharing one email is usually a data-entry mistake",
+        "table": "EMAILS",
+        "test_category": "DQ"
+      },
+      "severity": "warning",
+      "type": "expect_column_values_to_be_unique"
+    },
+    {
+      "id": "c616ad10-11ba-4064-88a4-62301dcd9a5f",
+      "kwargs": {
+        "catch_exceptions": true,
+        "max_value": 100,
+        "min_value": 10,
+        "result_format": "COMPLETE"
+      },
+      "meta": {
+        "column": "EMAIL_ID",
+        "notes": "sanity bound on table size",
+        "table": "EMAILS",
+        "test_category": "DQ"
+      },
+      "severity": "info",
+      "type": "expect_table_row_count_to_be_between"
+    }
+  ],
+  "id": "1cc97397-4f20-49a4-81cd-778f86c737f9",
+  "meta": {
+    "great_expectations_version": "1.12.3"
+  },
+  "name": "EMAILS",
+  "notes": null
+}

@@ -1,0 +1,107 @@
+{
+  "expectations": [
+    {
+      "id": "08f49aff-dfe4-4c8a-bf4d-0d226ce71668",
+      "kwargs": {
+        "column": "PHONE_ID",
+        "result_format": "COMPLETE"
+      },
+      "meta": {
+        "notes": "primary key must be unique",
+        "table": "PHONES",
+        "test_category": "DQ"
+      },
+      "severity": "critical",
+      "type": "expect_column_values_to_be_unique"
+    },
+    {
+      "id": "81357c1e-544c-4ae9-8d9b-f71f7ed2d433",
+      "kwargs": {
+        "column": "CUSTOMER_ID",
+        "result_format": "COMPLETE"
+      },
+      "meta": {
+        "notes": "every phone must belong to a customer",
+        "table": "PHONES",
+        "test_category": "DQ"
+      },
+      "severity": "critical",
+      "type": "expect_column_values_to_not_be_null"
+    },
+    {
+      "id": "54e12c4e-aa0f-4b0f-a8f8-ed5f25c8cf2f",
+      "kwargs": {
+        "column": "PHONE_TYPE",
+        "result_format": "COMPLETE",
+        "value_set": [
+          "MOBILE",
+          "HOME",
+          "WORK"
+        ]
+      },
+      "meta": {
+        "notes": "FAX is not a supported contact channel here",
+        "table": "PHONES",
+        "test_category": "DQ"
+      },
+      "severity": "warning",
+      "type": "expect_column_values_to_be_in_set"
+    },
+    {
+      "id": "d784743c-84bf-49c0-9752-f8b5ac51050c",
+      "kwargs": {
+        "column": "PHONE_NUMBER",
+        "regex": "^\\d{3}-\\d{3}-\\d{4}$",
+        "result_format": "COMPLETE"
+      },
+      "meta": {
+        "notes": "expected format: 555-123-4567",
+        "table": "PHONES",
+        "test_category": "DQ"
+      },
+      "severity": "warning",
+      "type": "expect_column_values_to_match_regex"
+    },
+    {
+      "id": "7d469b95-c2ed-4315-b439-1d9b21188494",
+      "kwargs": {
+        "column_list": [
+          "CUSTOMER_ID",
+          "PHONE_TYPE"
+        ],
+        "result_format": "COMPLETE"
+      },
+      "meta": {
+        "column": "CUSTOMER_ID, PHONE_TYPE",
+        "notes": "a customer should not have two phones of the same type on file",
+        "table": "PHONES",
+        "test_category": "DQ"
+      },
+      "severity": "info",
+      "type": "expect_compound_columns_to_be_unique"
+    },
+    {
+      "id": "b502a7ad-47b1-4ca9-a0df-5b4ff2c316e8",
+      "kwargs": {
+        "catch_exceptions": true,
+        "max_value": 100,
+        "min_value": 10,
+        "result_format": "COMPLETE"
+      },
+      "meta": {
+        "column": "PHONE_ID",
+        "notes": "sanity bound on table size",
+        "table": "PHONES",
+        "test_category": "DQ"
+      },
+      "severity": "info",
+      "type": "expect_table_row_count_to_be_between"
+    }
+  ],
+  "id": "7fbaef2f-c0e9-445f-bff1-5c3fc7eb77ed",
+  "meta": {
+    "great_expectations_version": "1.12.3"
+  },
+  "name": "PHONES",
+  "notes": null
+}

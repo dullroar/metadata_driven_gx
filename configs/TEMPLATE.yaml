@@ -1,0 +1,65 @@
+# ---------------------------------------------------------------------------------------
+# TEMPLATE for a new test environment/project, and this repo's own checked-in default
+# config (every script falls back to configs/TEMPLATE.yaml when --config-file is omitted).
+#
+#   cp configs/TEMPLATE.yaml configs/my-project.yaml     # then edit the TODOs below
+#   python gx_consumer/gx_consumer.py --config-file ../configs/my-project.yaml
+#
+# Commit the result. That is the whole point: "what are we testing against?" is answered
+# by `git log configs/my-project.yaml`, and "when did it change?" by the diff. Put the
+# reason in the commit message, not in a comment nobody updates.
+#
+# Only override what this environment actually changes. Repo layout and per-program
+# defaults come from code -- this file carries the full annotated schema, read it once.
+#
+# NEVER put secrets here; these files are meant to be committed. If your own data source
+# needs credentials, read them from an environment variable or a secrets manager in your
+# consumer's data-loading code -- never from a config file.
+# ---------------------------------------------------------------------------------------
+
+common:
+  # Portable anchors for this run's gx/ and output/ trees. Set to today's default
+  # (repo_root/gx, repo_root/output) so relocating a run -- e.g. to a shared drive per
+  # user/project so concurrent runs don't collide -- is a one-line edit here. Relative
+  # values resolve against the repo root; every gx-/output-subpath key (expectations_dir,
+  # validations_dir, output_directory, ...) derives from these two unless a program's own
+  # section overrides that subpath key directly.
+  gx_root_dir: "gx"
+  output_root_dir: "output"
+
+  # Which environment/project this config file represents. Required, not optional --
+  # gx_validations_extractor stamps every row it writes with this, so results from more
+  # than one environment/config file can share the same output location or downstream
+  # table without one run's rows being mistaken for another's.
+  environment_name: "TODO"
+
+  # Optional: table -> natural key columns, e.g. {ORDERS: ["ORDER_ID"]}. When set, the
+  # consumer builds a human-readable index from these columns, and the extractor uses the
+  # same mapping to split a failing row's identity into named columns instead of one
+  # opaque pipe-joined string. Leave {} if you don't need readable failing-row identities.
+  join_keys: {}
+
+  # Run parameters. Uncomment to make a bare run work without passing flags every time.
+  # Any flag still wins over these.
+  # suites: "*"                       # e.g. "ORDERS*" to scope a run to one table's suites
+
+  # Logging verbosity for this run's file + console output (DEBUG/INFO/WARNING/ERROR).
+  # log_level: "INFO"
+
+gx_generator: {}          # gx_root_dir from common; suites_dir, metadata_file derived
+
+gx_consumer:
+  # Directory of CSV/delimited files named <table>.<ext> (csv, txt, psv, tsv, or dat) to
+  # validate -- e.g. csv_data_dir/ORDERS.csv for a suite whose expectations target ORDERS.
+  # See gx_consumer/gx_consumer.py's load_dataframe() for the one place to change if you
+  # want to read from a database instead.
+  csv_data_dir: "TODO"
+
+gx_validations_extractor: {}          # validations_dir/output_directory derived;
+                                       # details_cap optional (default 50)
+
+clear_old_gx_validations: {}          # validations_dir derived; quantity unset -- end_to_end's
+                                       # step-0 call is a no-op until you set one ("all" or a
+                                       # positive integer)
+
+end_to_end: {}                        # suites from common

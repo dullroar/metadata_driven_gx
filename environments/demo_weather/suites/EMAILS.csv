@@ -1,0 +1,7 @@
+table,column,expectation,min_value,max_value,mostly,regex,severity,meta
+EMAILS,EMAIL_ID,ExpectColumnValuesToBeUnique,,,,,critical,"{""notes"": ""primary key must be unique""}"
+EMAILS,CUSTOMER_ID,ExpectColumnValuesToNotBeNull,,,1.0,,critical,"{""notes"": ""every email must belong to a customer""}"
+EMAILS,EMAIL_ADDRESS,ExpectColumnValuesToNotBeNull,,,1.0,,critical,"{""notes"": ""a blank email cannot be used to contact the customer""}"
+EMAILS,EMAIL_ADDRESS,ExpectColumnValuesToMatchRegex,,,1.0,^[^@\s]+@[^@\s]+\.[^@\s]+$,warning,"{""notes"": ""must look like a real email address""}"
+EMAILS,EMAIL_ADDRESS,ExpectColumnValuesToBeUnique,,,,,warning,"{""notes"": ""two customers sharing one email is usually a data-entry mistake""}"
+EMAILS,EMAIL_ID,ExpectTableRowCountToBeBetween,10,100,,,info,"{""notes"": ""sanity bound on table size""}"

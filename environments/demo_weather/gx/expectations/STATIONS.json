@@ -1,0 +1,104 @@
+{
+  "expectations": [
+    {
+      "id": "8d905865-477d-426b-abdb-c61a8c336a1b",
+      "kwargs": {
+        "column": "STATION_ID",
+        "result_format": "COMPLETE"
+      },
+      "meta": {
+        "notes": "primary key must be unique",
+        "table": "STATIONS",
+        "test_category": "DQ"
+      },
+      "severity": "critical",
+      "type": "expect_column_values_to_be_unique"
+    },
+    {
+      "id": "f88aae2b-23ba-49b5-b2c6-0fb4ed208c45",
+      "kwargs": {
+        "column": "CUSTOMER_ID",
+        "result_format": "COMPLETE"
+      },
+      "meta": {
+        "notes": "every station must be registered to a customer",
+        "table": "STATIONS",
+        "test_category": "DQ"
+      },
+      "severity": "critical",
+      "type": "expect_column_values_to_not_be_null"
+    },
+    {
+      "id": "e14ef675-449a-435c-b053-78afb2f75c23",
+      "kwargs": {
+        "column": "MODEL_CD",
+        "result_format": "COMPLETE",
+        "value_set": [
+          "WX100",
+          "WX200",
+          "WX300"
+        ]
+      },
+      "meta": {
+        "notes": "WX50 was discontinued before this product line existed",
+        "table": "STATIONS",
+        "test_category": "DQ"
+      },
+      "severity": "warning",
+      "type": "expect_column_values_to_be_in_set"
+    },
+    {
+      "id": "ffd10ef1-448b-402f-a1e4-9b47b6ff4657",
+      "kwargs": {
+        "column_A": "WARRANTY_END_DATE",
+        "column_B": "WARRANTY_START_DATE",
+        "or_equal": false,
+        "result_format": "COMPLETE"
+      },
+      "meta": {
+        "notes": "a warranty must cover at least one day",
+        "table": "STATIONS",
+        "test_category": "DQ"
+      },
+      "severity": "warning",
+      "type": "expect_column_pair_values_a_to_be_greater_than_b"
+    },
+    {
+      "id": "ecfb5a7e-b990-446d-a88b-5fe0e50ff41d",
+      "kwargs": {
+        "column": "INSTALL_DATE",
+        "result_format": "COMPLETE"
+      },
+      "meta": {
+        "notes": "must be a real date",
+        "table": "STATIONS",
+        "test_category": "DQ"
+      },
+      "severity": "warning",
+      "type": "expect_column_values_to_be_dateutil_parseable"
+    },
+    {
+      "id": "9a42b33d-37ce-4cff-af1e-cb9fe83af178",
+      "kwargs": {
+        "catch_exceptions": true,
+        "max_value": 50,
+        "min_value": 5,
+        "result_format": "COMPLETE"
+      },
+      "meta": {
+        "column": "STATION_ID",
+        "notes": "sanity bound on table size",
+        "table": "STATIONS",
+        "test_category": "DQ"
+      },
+      "severity": "info",
+      "type": "expect_table_row_count_to_be_between"
+    }
+  ],
+  "id": "c3153096-66c5-4d61-8840-f9b7431b33c6",
+  "meta": {
+    "great_expectations_version": "1.12.3"
+  },
+  "name": "STATIONS",
+  "notes": null
+}

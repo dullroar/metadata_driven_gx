@@ -1,0 +1,7 @@
+table,column,expectation,column_A,column_B,or_equal,min_value,max_value,strict_min,strict_max,mostly,value_set,severity,meta
+STATIONS,STATION_ID,ExpectColumnValuesToBeUnique,,,,,,,,,,critical,"{""notes"": ""primary key must be unique""}"
+STATIONS,CUSTOMER_ID,ExpectColumnValuesToNotBeNull,,,,,,,,1.0,,critical,"{""notes"": ""every station must be registered to a customer""}"
+STATIONS,MODEL_CD,ExpectColumnValuesToBeInSet,,,,,,,,1.0,"[""WX100"", ""WX200"", ""WX300""]",warning,"{""notes"": ""WX50 was discontinued before this product line existed""}"
+STATIONS,,ExpectColumnPairValuesAToBeGreaterThanB,WARRANTY_END_DATE,WARRANTY_START_DATE,false,,,,,1.0,,warning,"{""notes"": ""a warranty must cover at least one day""}"
+STATIONS,INSTALL_DATE,ExpectColumnValuesToBeDateutilParseable,,,,,,,,1.0,,warning,"{""notes"": ""must be a real date""}"
+STATIONS,STATION_ID,ExpectTableRowCountToBeBetween,,,,5,50,false,false,,,info,"{""notes"": ""sanity bound on table size""}"

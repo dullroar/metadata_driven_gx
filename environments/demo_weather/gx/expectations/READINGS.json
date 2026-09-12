@@ -1,0 +1,214 @@
+{
+  "expectations": [
+    {
+      "id": "609ea978-9767-4445-9567-5baeb2bd7706",
+      "kwargs": {
+        "column": "READING_ID",
+        "result_format": "COMPLETE"
+      },
+      "meta": {
+        "notes": "primary key must be unique",
+        "table": "READINGS",
+        "test_category": "DQ"
+      },
+      "severity": "critical",
+      "type": "expect_column_values_to_be_unique"
+    },
+    {
+      "id": "0434766e-eed5-427d-b139-c48fe3e6e83d",
+      "kwargs": {
+        "column": "STATION_ID",
+        "result_format": "COMPLETE"
+      },
+      "meta": {
+        "notes": "a reading with no station cannot be attributed to anyone",
+        "table": "READINGS",
+        "test_category": "DQ"
+      },
+      "severity": "critical",
+      "type": "expect_column_values_to_not_be_null"
+    },
+    {
+      "id": "8c479e9a-1772-4b67-bd74-2bc73a8e72ba",
+      "kwargs": {
+        "column": "READING_TS",
+        "result_format": "COMPLETE"
+      },
+      "meta": {
+        "notes": "a reading with a garbled timestamp cannot be trended",
+        "table": "READINGS",
+        "test_category": "DQ"
+      },
+      "severity": "critical",
+      "type": "expect_column_values_to_be_dateutil_parseable"
+    },
+    {
+      "id": "ed95a2cf-9a7e-4c55-b4b5-2523af367c3b",
+      "kwargs": {
+        "column": "HUMIDITY_PCT",
+        "max_value": 100.0,
+        "min_value": 0.0,
+        "result_format": "COMPLETE"
+      },
+      "meta": {
+        "notes": "humidity is a percentage; it cannot exceed 100",
+        "table": "READINGS",
+        "test_category": "DQ"
+      },
+      "severity": "critical",
+      "type": "expect_column_values_to_be_between"
+    },
+    {
+      "id": "041db177-6581-419c-ab96-e16eaf218db7",
+      "kwargs": {
+        "column": "TEMPERATURE_F",
+        "max_value": 130.0,
+        "min_value": -40.0,
+        "result_format": "COMPLETE"
+      },
+      "meta": {
+        "notes": "generous bound for any US home weather station; -999 is a dead-sensor sentinel, not a real reading",
+        "table": "READINGS",
+        "test_category": "DQ"
+      },
+      "severity": "critical",
+      "type": "expect_column_values_to_be_between"
+    },
+    {
+      "id": "889e2dac-d8c7-47bc-a69e-4c16708ac878",
+      "kwargs": {
+        "column": "PRESSURE_HPA",
+        "result_format": "COMPLETE"
+      },
+      "meta": {
+        "notes": "a missing pressure reading means the barometer sensor dropped out",
+        "table": "READINGS",
+        "test_category": "DQ"
+      },
+      "severity": "warning",
+      "type": "expect_column_values_to_not_be_null"
+    },
+    {
+      "id": "79e76269-45f7-432c-a43c-0a7ad369ff05",
+      "kwargs": {
+        "column": "PRESSURE_HPA",
+        "max_value": 1085.0,
+        "min_value": 930.0,
+        "result_format": "COMPLETE"
+      },
+      "meta": {
+        "notes": "outside this range the station is almost certainly malfunctioning, not measuring real weather",
+        "table": "READINGS",
+        "test_category": "DQ"
+      },
+      "severity": "warning",
+      "type": "expect_column_values_to_be_between"
+    },
+    {
+      "id": "3be9ebcb-f1b9-4e31-b3cd-e81ce6bae5a6",
+      "kwargs": {
+        "column": "WIND_SPEED_MPH",
+        "max_value": 150.0,
+        "min_value": 0.0,
+        "result_format": "COMPLETE"
+      },
+      "meta": {
+        "notes": "wind speed cannot be negative",
+        "table": "READINGS",
+        "test_category": "DQ"
+      },
+      "severity": "warning",
+      "type": "expect_column_values_to_be_between"
+    },
+    {
+      "id": "8b3a3348-adea-4f47-a0ee-ab863a39a3ac",
+      "kwargs": {
+        "column": "RAINFALL_IN",
+        "max_value": 20.0,
+        "min_value": 0.0,
+        "result_format": "COMPLETE"
+      },
+      "meta": {
+        "notes": "rainfall cannot be negative (0 itself -- no rain -- is a valid, common reading)",
+        "table": "READINGS",
+        "test_category": "DQ"
+      },
+      "severity": "warning",
+      "type": "expect_column_values_to_be_between"
+    },
+    {
+      "id": "a5c43661-9861-4b80-97b9-8332e51250e0",
+      "kwargs": {
+        "column": "BATTERY_PCT",
+        "max_value": 100.0,
+        "min_value": 0.0,
+        "result_format": "COMPLETE"
+      },
+      "meta": {
+        "notes": "battery is a percentage; 100 itself is a valid, common reading",
+        "table": "READINGS",
+        "test_category": "DQ"
+      },
+      "severity": "warning",
+      "type": "expect_column_values_to_be_between"
+    },
+    {
+      "id": "f6b29ec9-e7b3-41c7-ba3a-7c0eb1490646",
+      "kwargs": {
+        "catch_exceptions": true,
+        "column": "TEMPERATURE_F",
+        "max_value": 20.0,
+        "min_value": 0.0,
+        "result_format": "COMPLETE"
+      },
+      "meta": {
+        "notes": "flex check: a single wild sensor reading blows out the whole day\u2019s spread, not just its own bound",
+        "table": "READINGS",
+        "test_category": "DQ"
+      },
+      "severity": "warning",
+      "type": "expect_column_stdev_to_be_between"
+    },
+    {
+      "id": "1b0ed359-77c2-4a4c-bc7e-301a7e7e1755",
+      "kwargs": {
+        "column_list": [
+          "STATION_ID",
+          "READING_TS"
+        ],
+        "result_format": "COMPLETE"
+      },
+      "meta": {
+        "column": "STATION_ID, READING_TS",
+        "notes": "a station cannot log two different readings at the exact same timestamp",
+        "table": "READINGS",
+        "test_category": "DQ"
+      },
+      "severity": "critical",
+      "type": "expect_compound_columns_to_be_unique"
+    },
+    {
+      "id": "ab7fac2a-ac5e-4cb3-8e77-5f2812a88883",
+      "kwargs": {
+        "catch_exceptions": true,
+        "max_value": 500,
+        "min_value": 50,
+        "result_format": "COMPLETE"
+      },
+      "meta": {
+        "column": "READING_ID",
+        "notes": "sanity bound on table size",
+        "table": "READINGS",
+        "test_category": "DQ"
+      },
+      "severity": "info",
+      "type": "expect_table_row_count_to_be_between"
+    }
+  ],
+  "id": "f5496301-587b-40e6-89d4-19c13cc976e8",
+  "meta": {
+    "great_expectations_version": "1.12.3"
+  },
+  "name": "READINGS",
+  "notes": null
+}

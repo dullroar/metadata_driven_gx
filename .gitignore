@@ -1,0 +1,92 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# C extensions
+*.so
+
+# Distribution / packaging
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+share/python-wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# Unit test / coverage reports
+htmlcov/
+.tox/
+.nox/
+.coverage
+.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+*.py,cover
+.hypothesis/
+.pytest_cache/
+cover/
+
+# Jupyter Notebook
+.ipynb_checkpoints
+
+# IPython
+profile_default/
+ipython_config.py
+
+# Environments
+.env
+.venv/
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+
+# mkdocs documentation
+/site
+
+# mypy
+.mypy_cache/
+.dmypy.json
+dmypy.json
+
+# Cython debug symbols
+cython_debug/
+
+play/
+
+# The root gx/ and output/ trees stay an untouched template (nothing here has ever been
+# run) -- never commit output from your own trial runs against them. A worked example
+# lives isolated under environments/, see below. gx/'s own regenerable run-history/build
+# artifacts (checkpoints/, validation_definitions/, uncommitted/) are excluded by its own
+# gx/.gitignore, not repeated here -- gx/expectations/*.json is the one part that IS
+# committed, in both the root gx/ and every environment's own gx/. Anchored to the repo
+root (leading slash) -- unanchored, this would also match environments/*/output/, which
+must NOT be ignored wholesale (see below).
+/output/
+
+# environments/<name>/ is a self-contained, isolated project (see configs/TEMPLATE.yaml's
+# "Isolating a test suite per environment"). Unlike root output/ above, an environment's
+# own output/ CSVs (gx_validations_extractor's flattened results) ARE meant to be
+# committed -- they're this repo's worked example of "what a real run produces." Only
+# its timestamped, ever-growing log files are excluded.
+environments/*/output/logs/
+
+# .gitignore - editor/tooling personal files
+.vscode/
+.idea/

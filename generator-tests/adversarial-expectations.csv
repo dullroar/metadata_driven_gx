@@ -1,0 +1,7 @@
+table,column,expectation,min_value,max_value,value_set,mostly,column_list,regex,severity,meta
+BAD,X,ExpectColumnValuesToBePurple,,,,,,,warning,{}
+BAD,X,ExpectColumnValuesToNotBeNull,,,,,,,medium,{}
+BAD,X,ExpectColumnValuesToNotBeNull,,,,,,,critical,"{""oops"": }"
+BAD,X,ExpectColumnValuesToBeInSet,,,not_a_list,,,,warning,{}
+BAD,,ExpectColumnValuesToNotBeNull,,,,,,,critical,{}
+BAD,X,ExpectColumnValuesToBeBetween,,,,,,,warning,{}

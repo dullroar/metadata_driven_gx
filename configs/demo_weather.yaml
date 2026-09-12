@@ -1,0 +1,41 @@
+# ---------------------------------------------------------------------------------------
+# demo_weather -- a fully worked, committed example environment for "Nimbus Home Weather
+# Co.", a fictional company selling home weather stations. All data under
+# environments/demo_weather/ is synthetic and was generated for this repo (see
+# environments/demo_weather/README.md) -- it does not describe any real company, person,
+# or database.
+#
+# This environment is deliberately ISOLATED from the root gx/ and output/ trees (its own
+# gx_root_dir, output_root_dir, suites_dir, csv_data_dir all live under
+# environments/demo_weather/) so the root of this repo stays a pristine, empty template
+# for YOUR OWN project -- see the "Isolating a test suite per environment" pattern this
+# follows.
+#
+#   python gx_generator.py --config-file configs/demo_weather.yaml
+#   python gx_consumer.py  --config-file configs/demo_weather.yaml
+#   python gx_validations_extractor.py --config-file configs/demo_weather.yaml
+#
+# or all three at once:
+#   python end_to_end.py --config-file configs/demo_weather.yaml
+# ---------------------------------------------------------------------------------------
+
+common:
+  gx_root_dir: "environments/demo_weather/gx"
+  output_root_dir: "environments/demo_weather/output"
+  environment_name: "demo_weather"
+
+  # Natural key columns per table, for human-readable failing-row identities in both
+  # gx_consumer's DataFrame index and gx_validations_extractor's details CSV.
+  join_keys:
+    CUSTOMERS: ["CUSTOMER_ID"]
+    ADDRESSES: ["ADDRESS_ID"]
+    PHONES: ["PHONE_ID"]
+    EMAILS: ["EMAIL_ID"]
+    STATIONS: ["STATION_ID"]
+    READINGS: ["READING_ID"]
+
+gx_generator:
+  suites_dir: "environments/demo_weather/suites"
+
+gx_consumer:
+  csv_data_dir: "environments/demo_weather/data"

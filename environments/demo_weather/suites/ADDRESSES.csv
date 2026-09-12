@@ -1,0 +1,10 @@
+table,column,expectation,column_A,column_B,min_value,max_value,mostly,value_set,value,regex,severity,meta
+ADDRESSES,ADDRESS_ID,ExpectColumnValuesToBeUnique,,,,,,,,,critical,"{""notes"": ""primary key must be unique""}"
+ADDRESSES,CUSTOMER_ID,ExpectColumnValuesToNotBeNull,,,,,1.0,,,,critical,"{""notes"": ""every address must belong to a customer""}"
+ADDRESSES,STREET,ExpectColumnValuesToNotBeNull,,,,,1.0,,,,warning,"{""notes"": ""a blank street line means the address is unusable""}"
+ADDRESSES,ZIP_CODE,ExpectColumnValueLengthsToEqual,,,,,,,5,,critical,"{""notes"": ""US ZIP codes are 5 digits in this dataset""}"
+ADDRESSES,ZIP_CODE,ExpectColumnValuesToMatchRegex,,,,,1.0,,,^\d{5}$,warning,"{""notes"": ""digits only, no letters""}"
+ADDRESSES,STATE_CD,ExpectColumnValuesToBeInSet,,,,,1.0,"[""CA"", ""NY"", ""TX"", ""WA"", ""CO"", ""OR"", ""AZ"", ""IL"", ""MA"", ""NC"", ""MN"", ""GA"", ""UT"", ""VA"", ""MI""]",,,warning,"{""notes"": ""shipping state must be one we serve""}"
+ADDRESSES,COUNTRY_CD,ExpectColumnValuesToBeInSet,,,,,1.0,"[""US""]",,,warning,"{""notes"": ""this dataset is US-only for now""}"
+ADDRESSES,,ExpectColumnPairValuesToBeEqual,STATE_CD,BILLING_STATE_CD,,,1.0,,,,warning,"{""notes"": ""home state and billing state should usually match; a mismatch is worth a human look, not necessarily wrong""}"
+ADDRESSES,ADDRESS_ID,ExpectTableRowCountToBeBetween,,,10,100,,,,,info,"{""notes"": ""sanity bound on table size""}"

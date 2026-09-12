@@ -1,0 +1,182 @@
+{
+  "expectations": [
+    {
+      "id": "1273a521-30e2-4ff3-a795-fcffd50aac6e",
+      "kwargs": {
+        "column": "CUSTOMER_ID",
+        "result_format": "COMPLETE"
+      },
+      "meta": {
+        "notes": "primary key must be unique",
+        "table": "CUSTOMERS",
+        "test_category": "DQ"
+      },
+      "severity": "critical",
+      "type": "expect_column_values_to_be_unique"
+    },
+    {
+      "id": "5a7ab338-adbc-4643-84e4-f41fd0d1ae78",
+      "kwargs": {
+        "column": "CUSTOMER_ID",
+        "result_format": "COMPLETE"
+      },
+      "meta": {
+        "notes": "primary key must be present",
+        "table": "CUSTOMERS",
+        "test_category": "DQ"
+      },
+      "severity": "critical",
+      "type": "expect_column_values_to_not_be_null"
+    },
+    {
+      "id": "55c92da1-55da-4f97-9003-60fc9270325b",
+      "kwargs": {
+        "column": "LAST_NAME",
+        "result_format": "COMPLETE"
+      },
+      "meta": {
+        "notes": "a customer record with no last name is incomplete",
+        "table": "CUSTOMERS",
+        "test_category": "DQ"
+      },
+      "severity": "warning",
+      "type": "expect_column_values_to_not_be_null"
+    },
+    {
+      "id": "c68e7405-0562-4998-ab71-f87f64728fc6",
+      "kwargs": {
+        "column": "STATE_CD",
+        "result_format": "COMPLETE",
+        "value_set": [
+          "CA",
+          "NY",
+          "TX",
+          "WA",
+          "CO",
+          "OR",
+          "AZ",
+          "IL",
+          "MA",
+          "NC",
+          "MN",
+          "GA",
+          "UT",
+          "VA",
+          "MI"
+        ]
+      },
+      "meta": {
+        "notes": "home state must be one we actually ship to",
+        "table": "CUSTOMERS",
+        "test_category": "DQ"
+      },
+      "severity": "warning",
+      "type": "expect_column_values_to_be_in_set"
+    },
+    {
+      "id": "bff30839-7dc4-4bc3-b54a-fa66c09fab04",
+      "kwargs": {
+        "column": "STATE_CD",
+        "result_format": "COMPLETE",
+        "value": 2.0
+      },
+      "meta": {
+        "notes": "state codes are always 2 letters",
+        "table": "CUSTOMERS",
+        "test_category": "DQ"
+      },
+      "severity": "warning",
+      "type": "expect_column_value_lengths_to_equal"
+    },
+    {
+      "id": "7be47e5a-b7a3-4a08-9f8b-055fec3d0d07",
+      "kwargs": {
+        "column": "ACCOUNT_STATUS",
+        "result_format": "COMPLETE",
+        "value_set": [
+          "ACTIVE",
+          "INACTIVE",
+          "SUSPENDED"
+        ]
+      },
+      "meta": {
+        "notes": "no other lifecycle states exist",
+        "table": "CUSTOMERS",
+        "test_category": "DQ"
+      },
+      "severity": "critical",
+      "type": "expect_column_values_to_be_in_set"
+    },
+    {
+      "id": "0a0d2ca8-d767-47cb-8090-4100a6c3d59e",
+      "kwargs": {
+        "column": "LOYALTY_POINTS",
+        "max_value": 100000.0,
+        "min_value": 0.0,
+        "result_format": "COMPLETE"
+      },
+      "meta": {
+        "notes": "points can never go negative",
+        "table": "CUSTOMERS",
+        "test_category": "DQ"
+      },
+      "severity": "critical",
+      "type": "expect_column_values_to_be_between"
+    },
+    {
+      "id": "e426011a-779a-4afa-ac02-ae4dd0b29b24",
+      "kwargs": {
+        "column": "SIGNUP_DATE",
+        "result_format": "COMPLETE"
+      },
+      "meta": {
+        "notes": "must be a real date",
+        "table": "CUSTOMERS",
+        "test_category": "DQ"
+      },
+      "severity": "warning",
+      "type": "expect_column_values_to_be_dateutil_parseable"
+    },
+    {
+      "id": "35b287c0-8729-4099-84d8-16f1880585c9",
+      "kwargs": {
+        "column_list": [
+          "FIRST_NAME",
+          "LAST_NAME"
+        ],
+        "result_format": "COMPLETE"
+      },
+      "meta": {
+        "column": "FIRST_NAME, LAST_NAME",
+        "notes": "sniff test for accidental duplicate customer records",
+        "table": "CUSTOMERS",
+        "test_category": "DQ"
+      },
+      "severity": "info",
+      "type": "expect_compound_columns_to_be_unique"
+    },
+    {
+      "id": "f6db9888-99da-47f5-b07e-00f39d217e43",
+      "kwargs": {
+        "catch_exceptions": true,
+        "max_value": 100,
+        "min_value": 10,
+        "result_format": "COMPLETE"
+      },
+      "meta": {
+        "column": "CUSTOMER_ID",
+        "notes": "sanity bound on table size",
+        "table": "CUSTOMERS",
+        "test_category": "DQ"
+      },
+      "severity": "info",
+      "type": "expect_table_row_count_to_be_between"
+    }
+  ],
+  "id": "fd1dcb61-67ce-4907-8d8a-c853d9d616d3",
+  "meta": {
+    "great_expectations_version": "1.12.3"
+  },
+  "name": "CUSTOMERS",
+  "notes": null
+}

@@ -1,0 +1,7 @@
+table,column,expectation,min_value,max_value,value_set,mostly,column_list,regex,severity,meta
+TEST_TABLE,ID,ExpectColumnValuesToNotBeNull,,,,,,,critical,"{""notes"": ""ID must be present""}"
+TEST_TABLE,AGE,ExpectColumnValuesToBeBetween,0,120,,,,,warning,"{""notes"": ""Reasonable age bounds""}"
+TEST_TABLE,STATE,ExpectColumnValuesToBeInSet,,,"[""MN"",""WI"",""IA""]",,,,info,"{""notes"": ""Allowed states""}"
+TEST_TABLE,ZIP,ExpectColumnValueLengthsToBeBetween,5,5,,,,,info,"{""notes"": ""ZIP must be 5 digits""}"
+TEST_TABLE,"ID,AGE",ExpectCompoundColumnsToBeUnique,,,,,"[""ID"",""AGE""]",,critical,"{""notes"": ""ID+AGE unique combo""}"
+TEST_TABLE,TEST_TABLE,ExpectTableRowCountToBeBetween,1,10000,,,,,info,"{""notes"": ""Row count bound""}"

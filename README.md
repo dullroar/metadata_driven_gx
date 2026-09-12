@@ -152,6 +152,24 @@ output/                          extractor CSVs + log files (gitignored)
 environments/demo_weather/       a fully worked, committed example -- see GETTING_STARTED.md
 ```
 
+## Re-running the demo produces a noisy diff (and that's fine)
+
+`environments/demo_weather/` ships with GX's own output already generated and committed,
+so you can look at a finished result without running anything. If you *do* re-run
+`python end_to_end.py --config-file configs/demo_weather.yaml` (or any single stage) against
+that same environment, `git diff` will show changes even though nothing about the demo
+itself changed:
+
+- Every GX suite/checkpoint/validation-definition JSON under `gx/` carries an `"id"` field
+  -- a GUID GX assigns fresh each time that object is (re)created.
+- Every row the extractor writes to `output/*/*.csv` carries a `run_date` column -- the
+  wall-clock time the validation actually ran.
+
+Neither is meaningful content; they're just GX's own bookkeeping and the current
+timestamp, not something an analyst or reviewer needs to see in a diff. See
+[CLAUDE.md](CLAUDE.md)/[AGENTS.md](AGENTS.md) for what an AI coding agent working in this
+repo should do when it runs into this.
+
 ## Hard lessons, kept on purpose
 
 A few things this repo's design encodes because they were learned the expensive way in

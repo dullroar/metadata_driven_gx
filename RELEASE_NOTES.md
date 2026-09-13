@@ -5,6 +5,15 @@ This project's version lives here and in each version's commit message
 whatever change it describes; see [CLAUDE.md](CLAUDE.md)/[AGENTS.md](AGENTS.md) for the
 standing instruction to AI coding agents to do this without being asked each time.
 
+## v0.0.5
+
+- Added [TESTING_WITH_GX.md](TESTING_WITH_GX.md): an essay on using this repo's
+  `environments/` pattern (a config file plus its own `suites/`/`gx/`/`output/`/data
+  directories) as a general-purpose, AI-generatable whitebox output-testing harness for
+  *any other codebase* that produces tabular output -- including pointing an
+  environment's directories at the target codebase's own repo so the generated suites
+  and results version-control there instead of here.
+
 ## v0.0.4
 
 - Added a committed `dbx_notebooks/end_to_end.ipynb` and notebook-focused README for

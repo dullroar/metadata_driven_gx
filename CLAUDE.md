@@ -1,7 +1,7 @@
 # Instructions for AI coding agents working in this repo
 
-This file and [AGENTS.md](AGENTS.md) are kept identical on purpose, for whichever
-convention your tool looks for.
+This file and [AGENTS.md](AGENTS.md) are identical, except for this line, kept
+that way on purpose for whichever convention your tool looks for.
 
 ## GX regenerates GUIDs and timestamps on every run -- don't treat that as a real diff
 

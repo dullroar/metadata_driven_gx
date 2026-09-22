@@ -5,6 +5,10 @@ This project's version lives here and in each version's commit message
 whatever change it describes; see [CLAUDE.md](CLAUDE.md)/[AGENTS.md](AGENTS.md) for the
 standing instruction to AI coding agents to do this without being asked each time.
 
+## v0.0.6
+
+- Added a root-level `MEMORY.md` stub for compact, version-controlled, cross-LLM project continuity notes.
+
 ## v0.0.5
 
 - Added [TESTING_WITH_GX.md](TESTING_WITH_GX.md): an essay on using this repo's

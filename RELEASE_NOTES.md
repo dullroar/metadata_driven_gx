@@ -5,6 +5,10 @@ This project's version lives here and in each version's commit message
 whatever change it describes; see [CLAUDE.md](CLAUDE.md)/[AGENTS.md](AGENTS.md) for the
 standing instruction to AI coding agents to do this without being asked each time.
 
+## v0.0.7
+
+- Refocused MEMORY.md on dated, non-obvious operational findings and standing LLM update instructions rather than material that belongs in README.md or DESIGN.md.
+
 ## v0.0.6
 
 - Added a root-level `MEMORY.md` stub for compact, version-controlled, cross-LLM project continuity notes.

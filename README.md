@@ -1,6 +1,6 @@
 # metadata-driven-gx
 
-For architecture and intentional workflow boundaries, see [DESIGN.md](DESIGN.md).
+For architecture and intentional workflow boundaries, see [docs/design/](docs/design/README.md).
 
 A demonstration of how to build a **metadata-driven** data-quality testing stack on top
 of [Great Expectations](https://docs.greatexpectations.io/docs/core/introduction/) (GX):

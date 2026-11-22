@@ -1,6 +1,6 @@
 ---
 id: 02-build-and-test
-status: pending
+status: done
 depends_on: [01-adopt-context]
 touches:
   - Dockerfile
@@ -15,7 +15,7 @@ touches:
 lane: none
 requirements: [R2]
 gate: bash scripts/test_docker.sh && python3 scripts/check_context.py && git diff --check
-evidence: ""
+evidence: "Gate passed on 2026-11-22 UTC. The isolated Docker run matched all 12 sample CSVs across six suites, with 50 summary rows and 34 detail rows. Container and host context checks and the whitespace check passed."
 ---
 
 # 02-build-and-test

@@ -1,6 +1,6 @@
 ---
 id: 01-adopt-context
-status: pending
+status: done
 depends_on: []
 touches:
   - AGENTS.md
@@ -27,7 +27,7 @@ touches:
 lane: none
 requirements: [R1]
 gate: python3 scripts/build_indexes.py --check && python3 scripts/check_context.py && git diff --check
-evidence: ""
+evidence: "2026-11-22 UTC. Gate `python3 scripts/build_indexes.py --check && python3 scripts/check_context.py && git diff --check` passed. The context check passed in a standalone Git copy and in a copy without Git metadata. Isolated probes failed as expected for a broken local link, stale plan and design indexes, a missing gate, a missing goal, an unknown requirement ID, and a synthetic private-key marker. Both legacy command names passed their clean checks and detected the corresponding failures."
 ---
 
 # 01-adopt-context

@@ -63,6 +63,40 @@ scratchpads for editing one suite.
 Every script is runnable on its own (`python gx_generator.py --config-file ...`);
 `end_to_end.py` is a convenience, not a requirement.
 
+## Build and test with Docker
+
+Use a Docker Engine that runs Linux containers, plus Bash, Git, and tar. The
+build needs access to Docker Hub and PyPI. The test runs as a normal user with
+network access disabled. It uses the synthetic weather demo and needs no
+devices, mounts, or credentials.
+
+From a Git checkout, build an image and run its default demo test.
+
+```bash
+docker build -t metadata-driven-gx:local .
+docker run --rm --network none metadata-driven-gx:local
+```
+
+Run the same gate as CI from the repository root.
+
+```bash
+bash scripts/test_docker.sh
+```
+
+The gate builds from the current contents of tracked files, including staged
+additions. It runs the context checks and the demo CLI in the image. The demo
+test writes to a temporary copy and compares the generated CSVs with the
+committed sample. It checks the file names, column order, and all row values
+except the run timestamps.
+
+With [Ralph Looper](https://github.com/dullroar/ralph-looper) installed, run or
+check the migration plan from a checkout that contains the committed plan.
+
+```bash
+ralph-looper --repo . --plan ralphify --agent codex --jobs 1
+ralph-looper --repo . --plan ralphify --status
+```
+
 ## The CSV metadata format (`suites/*.csv`)
 
 One row per expectation. Column names in the CSV match the constructor argument names of

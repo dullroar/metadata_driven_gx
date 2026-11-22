@@ -15,3 +15,5 @@ jobs:
           persist-credentials: false
       - name: Check indexes, plans, links and secrets
         run: python3 scripts/check_context.py
+      - name: Build and test the demo in Docker
+        run: bash scripts/test_docker.sh

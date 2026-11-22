@@ -1,13 +1,15 @@
 ---
 id: 03-verify-integration
-status: pending
+status: done
 depends_on: [02-build-and-test]
 touches:
   - plans/ralphify/steps/03-verify-integration.md
 lane: none
 requirements: [R3]
 gate: python3 scripts/check_context.py && bash scripts/test_docker.sh && git diff --check
-evidence: ""
+evidence: gate passed 2026-11-22 (driver-verified)
+claimed_by: codex cli-default
+claimed_at: "2026-11-22T21:06:36Z"
 ---
 
 # 03-verify-integration
@@ -24,10 +26,37 @@ Run `git merge-base HEAD plan/ralphify` to identify the integrated base commit. 
 
 ## Results
 
-- Base commit: PENDING
-- Commands: PENDING
-- Docker build: PENDING
-- Tests: PENDING
-- Skips: PENDING
-- FUSE: PENDING
-- UTC date: PENDING
+- Base commit: `8841dc341cc42cd525a2731ea4fb7d9586a74f48` from
+  `git merge-base HEAD plan/ralphify`.
+- Commands: PASS. `python3 scripts/check_context.py && bash scripts/test_docker.sh && git diff --check`.
+  The context checks passed on the host and in the image. They checked the generated
+  indexes, plan, links, and context secrets.
+- Docker build: PASS. The gate built a Python 3.11 image from the tracked files.
+  The image used the cached install from `requirements.txt`.
+- Tests: PASS. In a temporary copy, the container ran
+  `python end_to_end.py --config-file configs/demo_weather.yaml`. It ran six suites
+  and matched all 12 sample CSVs, with 50 summary rows and 34 detail rows. It compared
+  file names, column order, and all row values except `run_date`. The summary rows
+  include 21 successful expectations and 29 expected data validation failures.
+- Skips: No required tests skipped. The demo skipped the optional GX validation
+  cleanup because it had no cleanup quantity. Databricks is outside the Docker gate.
+- FUSE: n/a.
+- UTC date: 2026-11-22.
+
+## README and entry points
+
+- PASS. The README's direct build and run also passed with a unique local tag.
+  `docker build -t metadata-driven-gx:verify-RkK0hlCJ .` installed the dependencies
+  from `requirements.txt`. `docker run --rm --network none metadata-driven-gx:verify-RkK0hlCJ`
+  matched all 12 sample CSVs through the default image command.
+- PASS. In the image, `python <script> --help` exited successfully for all six
+  existing CLI scripts. These are `end_to_end.py`, `gx_generator.py`,
+  `gx_consumer.py`, `gx_validations_extractor.py`, `clear_old_gx_validations.py`,
+  and `edit_suite.py`. The notebook's `end_to_end.run_pipeline` entry point
+  imported as a callable.
+- PASS. Both GitHub links in `AGENTS.md` resolved to the expected repositories.
+  The structure rule names the layout, plan format, generated indexes, worktree
+  rules, and validation commands.
+- PASS. The README's two Ralph invocations match the local runner's usage. Its
+  status parser reported two done steps and one pending step before this update.
+  The active driver owns plan execution and worktree changes.

@@ -1,6 +1,6 @@
 ---
 id: a03-probes
-status: pending
+status: done
 depends_on: [a02-apply]
 touches:
   - docs/controls-adoption.md
@@ -10,7 +10,7 @@ gate: python3 scripts/check_context.py && python3 scripts/build_indexes.py --che
 requirements: [R3]
 claimed_by: ""
 claimed_at: ""
-evidence: ""
+evidence: "2026-11-24 UTC: all six bad probes failed with the expected rule or exit 3; the restored clone passed (exit 0); the shim exited 1 for the bad plan step; rollback tested; receipt recorded in docs/controls-adoption.md. The gate command passed."
 ---
 
 # Prove the controls with known-bad probes, test the rollback and write the receipt

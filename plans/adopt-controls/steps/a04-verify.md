@@ -1,6 +1,6 @@
 ---
 id: a04-verify
-status: pending
+status: done
 depends_on: [a03-probes]
 touches:
   - plans/adopt-controls/steps/a04-verify.md
@@ -8,9 +8,9 @@ lane: none
 tier: light
 gate: d=$(mktemp -d) && trap 'rm -rf "$d"' EXIT && git clone -q . "$d/clone" && cd "$d/clone" && python3 scripts/check_context.py && python3 scripts/build_indexes.py --check && python3 scripts/secret_guard.py --tracked && bash scripts/install_hooks.sh --self-test && python3 -m unittest discover -s tests -p 'test_secret_guard.py' && bash scripts/test_docker.sh && cd - >/dev/null && grep -q 'history-findings=[0-9]' plans/adopt-controls/steps/a04-verify.md
 requirements: [R4]
-claimed_by: ""
-claimed_at: ""
-evidence: "2026-11-23 UTC, in worktree: secret_guard.py --history 0 findings (history-findings=0); check_context.py ok (5 checks); build_indexes.py --check ok; secret_guard.py --tracked 0 findings; install_hooks.sh --self-test ok; unittest test_secret_guard.py 21 tests OK. Docker and clean-clone gate left to the driver."
+claimed_by: claude cli-default
+claimed_at: "2026-11-24T02:28:44Z"
+evidence: gate passed 2026-11-24 (driver-verified)
 ---
 
 # Verify the full gates from a clean clone

@@ -14,9 +14,9 @@ lane: none
 tier: light
 gate: python3 -m unittest discover -s tests -p 'test_secret_guard.py' -v && bash scripts/install_hooks.sh --self-test && python3 scripts/secret_guard.py --tracked && grep -q 'secret_guard.py --tracked' .github/workflows/context.yml && grep -q 'secret_guard.py --range' .github/workflows/context.yml && ! grep 'uses:' .github/workflows/context.yml | grep -vqE '@[0-9a-f]{40}' && python3 scripts/build_indexes.py --check && python3 scripts/check_context.py && git diff --check
 requirements: [R1]
-claimed_by: ""
-claimed_at: ""
-evidence: "Gate command from this file passed on 2026-11-23: 21 guard tests ok, hook self-test ok, guard on tracked files 0 findings, workflow checks ok, indexes fresh, check_context ok. The checkout pin 11d5960a (v4.4.0) matches git ls-remote."
+claimed_by: claude cli-default
+claimed_at: "2026-11-24T02:06:13Z"
+evidence: gate passed 2026-11-24 (driver-verified)
 ---
 
 # Install the secret guard, the hooks and the CI step

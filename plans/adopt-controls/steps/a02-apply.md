@@ -1,6 +1,6 @@
 ---
 id: a02-apply
-status: pending
+status: done
 depends_on: [a01-audit]
 touches:
   - scripts/check_context.py
@@ -19,7 +19,7 @@ gate: python3 scripts/check_context.py && python3 scripts/build_indexes.py --che
 requirements: [R2]
 claimed_by: ""
 claimed_at: ""
-evidence: ""
+evidence: "Full gate (check_context, build_indexes --check, secret_guard --tracked, greps, test_docker.sh, git diff --check) passed on 2026-11-23 with pin v0.1.2."
 ---
 
 # Adopt the pinned library in advisory mode
@@ -63,7 +63,9 @@ The pin moved to `v0.1.2` (`3a2e9f3d95136958c54f73c831e84b971fc9a054`). `v0.1.2`
 
 ## Resume notes
 
-Status: blocked on scope. All edits in `touches` are done and committed (apply output, Dockerfile, AGENTS.md rule, docs/controls-adoption.md, docs/README.md, refreshed indexes).
+Update 2026-11-23: the pin moved to v0.1.2 and the blocker is gone. The gate passes, including Docker. The notes below are history.
+
+Status (old): blocked on scope. All edits in `touches` are done and committed (apply output, Dockerfile, AGENTS.md rule, docs/controls-adoption.md, docs/README.md, refreshed indexes).
 
 Blocker: `python3 scripts/check_context.py` exits 1. The library check `context.index-freshness` reports two defects:
 - `memory/README.md` has no `gist` front matter.

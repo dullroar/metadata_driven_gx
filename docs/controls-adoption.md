@@ -25,10 +25,10 @@ This repository runs the pinned `deterministic-controls` library in advisory mod
 
 - **Dockerfile.** The Docker run has no network (`--network none`). The shim needs the network once. So the Dockerfile now prepares the shim cache at image build time, as user `gx-test`. The cache is under the home of that user. The image also needs the `git` program, for the shim setup and for `tests/test_secret_guard.py`. The Dockerfile installs it with `apt-get` as root. The run command and `scripts/test_docker.sh` did not change.
 - **Pin file.** `adopt apply` wrote a `Run me when:` line in `scripts/controls-requirements.txt`. No fix was needed.
-- **Files outside the step scope.** `adopt apply` wrote none.
+- **Files outside the step scope.** The first `adopt apply` wrote none. The re-run for the `v0.1.2` pin also changed `scripts/install_hooks.sh` (a new `secretguard.path` fallback). That file is outside the scope, so the change was reverted. The step did not keep it.
 - **Existing jobs.** `adopt apply` kept the `check` job. The new `controls` job repeats the secret guard steps. That is accepted for now.
 
-- **Stricter index check.** The library reports that `memory/README.md` has no `gist` and `scripts/README.md` has no `Run me when:` line. The old `build_indexes.py --check` did not report this. Both files were outside the scope of the adoption step. The fix is open.
+- **Stricter index check.** With the first pin, the library reported that `memory/README.md` had no `gist` and `scripts/README.md` had no `Run me when:` line. The old `build_indexes.py --check` did not report this. Pin `v0.1.2` skips folder `README.md` files, so no file edit was needed.
 
 ## Secret guard exceptions
 

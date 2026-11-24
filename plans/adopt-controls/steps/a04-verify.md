@@ -10,7 +10,7 @@ gate: d=$(mktemp -d) && trap 'rm -rf "$d"' EXIT && git clone -q . "$d/clone" && 
 requirements: [R4]
 claimed_by: ""
 claimed_at: ""
-evidence: ""
+evidence: "2026-11-23 UTC, in worktree: secret_guard.py --history 0 findings (history-findings=0); check_context.py ok (5 checks); build_indexes.py --check ok; secret_guard.py --tracked 0 findings; install_hooks.sh --self-test ok; unittest test_secret_guard.py 21 tests OK. Docker and clean-clone gate left to the driver."
 ---
 
 # Verify the full gates from a clean clone
@@ -53,4 +53,6 @@ Do not clone, use `mktemp`, or run Docker yourself: agent sessions may not. The 
 
 ## Resume notes
 
-(none)
+history-findings=0
+
+Docker and clean-clone checks were not run by this agent, as the operator change says. The driver runs the whole gate.

@@ -1,6 +1,6 @@
 ---
 id: a02-apply
-status: pending
+status: done
 depends_on: [a01-audit]
 touches:
   - scripts/check_context.py
@@ -17,9 +17,9 @@ touches:
 lane: none
 gate: python3 scripts/check_context.py && python3 scripts/build_indexes.py --check && python3 scripts/secret_guard.py --tracked && grep -q '3a2e9f3d95136958c54f73c831e84b971fc9a054' scripts/controls-requirements.txt && test -s controls.toml && grep -q '^  check:' .github/workflows/context.yml && grep -q 'secret_guard.py --tracked' .github/workflows/context.yml && ! grep -q 'continue-on-error' .github/workflows/context.yml && ! grep 'uses:' .github/workflows/context.yml | grep -vqE '@[0-9a-f]{40}' && grep -q 'cheapest executor' AGENTS.md && grep -q 'controls-adoption.md' docs/README.md && bash scripts/test_docker.sh && git diff --check
 requirements: [R2]
-claimed_by: ""
-claimed_at: ""
-evidence: ""
+claimed_by: claude cli-default
+claimed_at: "2026-11-24T02:16:27Z"
+evidence: gate passed 2026-11-24 (driver-verified)
 ---
 
 # Adopt the pinned library in advisory mode
@@ -63,4 +63,14 @@ The pin moved to `v0.1.2` (`3a2e9f3d95136958c54f73c831e84b971fc9a054`). `v0.1.2`
 
 ## Resume notes
 
-(none)
+Update 2026-11-23: the pin moved to v0.1.2 and the blocker is gone. The gate passes, including Docker. The notes below are history.
+
+Status (old): blocked on scope. All edits in `touches` are done and committed (apply output, Dockerfile, AGENTS.md rule, docs/controls-adoption.md, docs/README.md, refreshed indexes).
+
+Blocker: `python3 scripts/check_context.py` exits 1. The library check `context.index-freshness` reports two defects:
+- `memory/README.md` has no `gist` front matter.
+- `scripts/README.md` has no `Run me when:` line in its first 25 lines.
+
+Both files are outside `touches`. The old `build_indexes.py --check` passes, so the old scripts did not catch this. I did not change them, the gate or the shim. I did not run `bash scripts/test_docker.sh`, because it runs `check_context.py` and would fail the same way. The Dockerfile change is not tested.
+
+Needed from the owner: add both files to `touches` of this step (or fix them in an earlier step). The fix is one front matter line in each file. Then run the whole gate, including Docker, and set `status: done`.

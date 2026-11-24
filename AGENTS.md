@@ -91,6 +91,10 @@ RELEASE_NOTES.md in that same commit, and use the matching `vX.Y.Z:` prefix on t
 commit message itself. Don't wait to be asked a second time; this instruction is the
 standing ask.
 
+## Controls
+
+Do not weaken the controls. You may run the local checks at any time. CI runs them in all cases. Do not change or disable the controls, the pin (`scripts/controls-requirements.txt`), `controls.toml` or the workflows to make an unrelated task pass. The driver checks the gate and `touches` of each step. A change to the gate or a file outside `touches` fails the step. Send each piece of work to the cheapest executor that can do it, and let the gate decide if the work is done. The full policy is at https://github.com/dullroar/ralph-looper/blob/main/docs/routing.md.
+
 ## Validation
 
 Run the smallest check that proves the change, then `python3 scripts/check_context.py` for any change to Markdown, memory, plans, or scripts.

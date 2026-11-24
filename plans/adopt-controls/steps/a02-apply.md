@@ -63,4 +63,12 @@ The pin moved to `v0.1.2` (`3a2e9f3d95136958c54f73c831e84b971fc9a054`). `v0.1.2`
 
 ## Resume notes
 
-(none)
+Status: blocked on scope. All edits in `touches` are done and committed (apply output, Dockerfile, AGENTS.md rule, docs/controls-adoption.md, docs/README.md, refreshed indexes).
+
+Blocker: `python3 scripts/check_context.py` exits 1. The library check `context.index-freshness` reports two defects:
+- `memory/README.md` has no `gist` front matter.
+- `scripts/README.md` has no `Run me when:` line in its first 25 lines.
+
+Both files are outside `touches`. The old `build_indexes.py --check` passes, so the old scripts did not catch this. I did not change them, the gate or the shim. I did not run `bash scripts/test_docker.sh`, because it runs `check_context.py` and would fail the same way. The Dockerfile change is not tested.
+
+Needed from the owner: add both files to `touches` of this step (or fix them in an earlier step). The fix is one front matter line in each file. Then run the whole gate, including Docker, and set `status: done`.
